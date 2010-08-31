@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project name="piggybank" basedir="." default="all">
+	<property name="package.name" value="wilbur" />
+	<property name="java.dir" value="src/java" />
+	<property name="dist.dir" value="dist" />
+	<property name="dist.jar" value="${dist.dir}/jar" />
+	<property name="lib.dir" value="lib" />
+	<property name="dist.class" value="${dist.dir}/classes" />
+	
+	<path id="main-classpath">
+		<fileset dir="${lib.dir}" >
+			<include name="*.jar" />
+		</fileset>
+		<pathelement path="${classes.dir}" />
+	</path>
+	
+	<target name="all" depends="clean, build, jar" />
+	
+	<target name="clean" description="Clean all created files" >
+		<echo message="cleaning all jobs."/>
+		<delete dir="${dist.class}" />
+		<delete dir="${dist.jar}" />
+	</target>
+	
+	<target name="build" description="build class files">
+		<mkdir dir="${dist.class}" />
+		<javac fork="true" target="1.6" destdir="${dist.class}" debug="true" deprecation="true" failonerror="true" >
+			<src path="${java.dir}" />
+			<classpath refid="main-classpath" />
+		</javac>
+	</target>
+	
+	<target name="jar" depends="build" description="Build jars" >
+		<mkdir dir="${dist.jar}" />
+		<jar destfile="${dist.jar}/${package.name}.jar" >
+			<fileset dir="${dist.class}" >
+				<include name="**/*.*" />
+			</fileset>
+		</jar>
+	</target>
+	
+  <!-- <target name="piggybank" depends="jar" description="Creates the little piggy archive" >
+    <subant target="all">
+      <fileset dir="little-piggy" includes="build.xml" />
+    </subant>
+  </target> -->
+</project>
