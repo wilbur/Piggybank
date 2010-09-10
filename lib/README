@@ -1,0 +1,3 @@
+Only libraries that are not properly mavenized should go in here.
+The rest should be set up using Ivy -- look at ivy.xml and ivy/libraries.properties for examples.
+
